@@ -8,70 +8,90 @@
 
 
 def init(max_laps):
-    """
-    Crea y retorna un diccionario para almacenar hasta max_laps vueltas.
-    """
-    # TODO: Implementar
-    pass
+    timer = {}
+    timer["max"] = max_laps
+    timer["times"] = []
+    timer["total"] = 0.0
+    return timer
 
 
 def add_lap(timer, time):
-    """
-    Agrega una nueva vuelta con el tiempo especificado.
-    Retorna el diccionario modificado.
-    """
-    # TODO: Implementar
-    pass
+    if len(timer["times"]) < timer["max"]:
+        timer["times"].append(time)
+        timer["total"] = timer["total"] + time
+    return timer
 
 
 def count(timer):
-    """
-    Retorna el numero de vueltas agregadas.
-    """
-    # TODO: Implementar
-    pass
+    return len(timer["times"])
 
 
 def cumulative_time(timer):
-    """
-    Retorna el tiempo acumulado de todas las vueltas.
-    """
-    # TODO: Implementar
-    pass
+    return timer["total"]
 
 
 def format_laps(timer):
-    """
-    Retorna una representacion en cadena de los tiempos.
-    Formato: [t1, t2, t3, ..., tn]
-    """
-    # TODO: Implementar
-    pass
+    return str(timer["times"])
 
 
 def fastest_lap(timer):
-    """
-    Retorna el tiempo mas rapido de cualquier vuelta.
-    """
-    # TODO: Implementar
-    pass
+    times = timer["times"]
+    if len(times) == 0:
+        return 0
+
+    fastest = times[0]
+    for t in times:
+        if t < fastest:
+            fastest = t
+    return fastest
 
 
 def fastest_multi_lap(timer, k):
-    """
-    Retorna el tiempo acumulado mas rapido de cualquier k vueltas consecutivas.
-    """
-    # TODO: Implementar
-    pass
+    times = timer["times"]
+
+    if len(times) < k:
+        return 0
+
+    best = 999999
+
+    i = 0
+    while i <= len(times) - k:
+        suma = 0
+        j = 0
+        while j < k:
+            suma = suma + times[i + j]
+            j = j + 1
+
+        if suma < best:
+            best = suma
+
+        i = i + 1
+
+    return best
 
 
 def longest_decreasing_streak(timer):
-    """
-    Retorna la longitud maxima de una secuencia de vueltas consecutivas
-    donde los tiempos disminuyen estrictamente.
-    """
-    # TODO: Implementar
-    pass
+    times = timer["times"]
+
+    if len(times) == 0:
+        return 0
+
+    max_streak = 1
+    current = 1
+
+    i = 1
+    while i < len(times):
+        if times[i] < times[i - 1]:
+            current = current + 1
+            if current > max_streak:
+                max_streak = current
+        else:
+            current = 1
+
+        i = i + 1
+
+    return max_streak
+
 
 
 def main():
